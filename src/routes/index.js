@@ -9,6 +9,6 @@ const routes = express.Router()
 routes.post('/users', userController.create)
 routes.put('/users/:id', userController.update)
 routes.get('/users', userController.all)
-routes.delete('/users', userController.destroy)
+routes.delete('/users/:id', userController.destroy)
 
 export default routes

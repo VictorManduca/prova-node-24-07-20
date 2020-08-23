@@ -16,7 +16,7 @@ export async function create(req, res) {
 
 export async function update(req, res) {
 	try {
-		const id = req.params
+		const id = req.params.id
 		const body = { ...req.body }
 		await models.user.update(body, { where: { id: id } })
 
@@ -29,7 +29,8 @@ export async function update(req, res) {
 export async function all(req, res) {
 	try {
 		const users = await models.user.findAll()
-		res.status(200).json(users)
+
+		return callback.ok(res, users)
 	} catch (error) {
 		return callback.badRequest(res, error)
 	}
@@ -37,8 +38,10 @@ export async function all(req, res) {
 
 export async function destroy(req, res) {
 	try {
-		const id = req.params
+		const id = req.params.id
 		await models.user.destroy({ where: { id: id } })
+
+		return callback.ok(res, { message: 'User deleted successfully' })
 	} catch (error) {
 		return callback.badRequest(res, error)
 	}
