@@ -1,10 +1,14 @@
+'use strict'
+
 import express from 'express'
 
-import * as user from './user/user-controller'
+import * as userController from './user/user-controller'
 
-const router = express.Router()
+const routes = express.Router()
 
-router.post('/drop/user', user.create)
-router.get('/drop/user', user.all)
+routes.post('/users', userController.create)
+routes.put('/users/:id', userController.update)
+routes.get('/users', userController.all)
+routes.delete('/users', userController.destroy)
 
-export default router
+export default routes
