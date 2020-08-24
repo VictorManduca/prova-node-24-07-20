@@ -2,10 +2,17 @@
 
 import models from '../../models'
 import * as callback from '../services/callback'
+import { validate } from '../services/functions'
+import userSchema from '../schemas/user-schema.json'
 
 export async function create(req, res) {
 	try {
 		const body = { ...req.body }
+
+		const validator = validate(userSchema, body)
+		if (validator !== true)
+			return callback.badRequest(res, validator)
+
 		await models.user.create(body)
 
 		return callback.created(res)
@@ -18,6 +25,11 @@ export async function update(req, res) {
 	try {
 		const id = req.params.id
 		const body = { ...req.body }
+
+		const validator = validate(userSchema, body)
+		if (validator !== true)
+			return callback.badRequest(res, validator)
+
 		await models.user.update(body, { where: { id: id } })
 
 		return callback.ok(res, { message: 'User updated successfully' })
