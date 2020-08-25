@@ -1,8 +1,8 @@
 'use strict'
 
-import models from '../../models'
 import * as callback from '../services/callback'
 import { validate } from '../services/functions'
+import models from '../../models'
 import userSchema from '../schemas/user-schema.json'
 
 export async function create(req, res) {
@@ -13,9 +13,9 @@ export async function create(req, res) {
 		if (validator !== true)
 			return callback.badRequest(res, validator)
 
-		await models.user.create(body)
+		const user = await models.user.create(body)
 
-		return callback.created(res)
+		return callback.created(res, user.dataValues.id)
 	} catch (error) {
 		return callback.badRequest(res, error)
 	}
@@ -43,6 +43,17 @@ export async function all(req, res) {
 		const users = await models.user.findAll()
 
 		return callback.ok(res, users)
+	} catch (error) {
+		return callback.badRequest(res, error)
+	}
+}
+
+export async function one(req, res) {
+	try {
+		const id = req.params.id
+		const user = await models.user.findOne({ where: { id: id } })
+
+		return callback.ok(res, user ? user : new Object())
 	} catch (error) {
 		return callback.badRequest(res, error)
 	}
