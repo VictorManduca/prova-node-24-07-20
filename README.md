@@ -42,4 +42,9 @@ yarn start        # para iniciar o nosso serviço
 ```
 
 E pronto, o serviço pode ser acessado pela porta `3000`\
-Você pode encontrar os exemplos de requisições na pasta `collections` para o Insomnia
+Você pode encontrar os exemplos de requisições na pasta `collections` para o Insomnia\
+Se quiser rodar os testes, execute
+
+```
+yarn test
+```
