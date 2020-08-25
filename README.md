@@ -1,27 +1,45 @@
-# Prova de Backend
+# Desafio helpper
+Olá! Seja bem vindo à minha solução do desafio proposto pela Helpper
 
-O projeto inicial é um cadastro de usuários em memória muito simples e sem utilizar nenhuma lib. Apesar de o código estar em qualidade baixa, o projeto está funcional. O que se espera é que o candidato melhore este código de uma maneira que possamos avaliar suas habilidades e competências.
+## Guia step-by-step
 
-### Rodando o projeto
+Primeiramente, devemos criar o container em que vai rodar nosso `database`
 
-`node src/index.js`
+```
+docker pull mariadb
+docker run --name helpper_container -p 3306:3306 -e MYSQL_ROOT_PASSWORD=helpper -d mariadb
+```
 
-## O que será avaliado?
+Copiamos o arquivo `.sql` da nossa máquina para o container e acessamos o terminal dele
 
-A idéia é deixar o candidato bem livre pra reimplementar o código da maneira que mais lhe for conveniente e que mais demonstre suas habilidades. Está liberado o uso de libs de terceiros, bancos de dados, autenticação, etc.
+```
+docker cp ./database/sql-scripts/structure.sql helpper_container:/structure.sql
+docker exec -it helpper_container bash
+```
 
-1. Qualidade de código
-2. Uso de patterns adequados
-3. Estratégia de validação de dados
-4. Testes unitários
+Agora, dentro do container, executamos
 
-## O que é desejado (não obrigatório) na entrega?
+```
+mysql -p
+```
 
-1. Adição de Banco de dados
-2. Utilização de docker
-3. Autenticação
-4. Utilização de typescript
+Com esse comando, digite a senha configurada nos comandos acima (nesse caso, helpper)\
+Com o terminal liberado, daremos sequência aos comandos para criar nosso `database`
 
-## Como será feita a entrega?
+```
+source structure.sql
+```
 
-Deverá ser realizado um fork deste repositório e no formulário enviado você deverá responder com o link deste fork.
+Com isso seu banco de dados já estará criado e pronto para uso\
+Agora, vamos para os passos para executar o nosso serviço
+
+Crie um arquivo `.env` na root do projeto e copie e cole nele o conteúdo do arquivo `.env.example`\
+Agora para rodar o serviço
+
+```
+yarn install      # para instalar as dependencias
+yarn start        # para iniciar o nosso serviço
+```
+
+E pronto, o serviço pode ser acessado pela porta `3000`\
+Você pode encontrar os exemplos de requisições na pasta `collections` para o Insomnia
